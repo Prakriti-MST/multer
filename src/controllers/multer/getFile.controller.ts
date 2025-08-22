@@ -1,18 +1,12 @@
-// src/controllers/upload.controller.ts
 import path from "path";
 import fs from "fs";
 import { Request, Response } from "express";
 
-
-const UPLOAD_DIR = path.resolve(__dirname, "..","..","..", "uploads");
-
+const UPLOAD_DIR = path.join(process.cwd(), "uploads");
 
 export const getFileById = (req: Request, res: Response) => {
-    console.log("UPLOAD_DIR:", UPLOAD_DIR);
   const { id } = req.params;
-  const filePath = path.resolve(UPLOAD_DIR, id);
-
-  console.log("filePath:", filePath);
+  const filePath = path.join(UPLOAD_DIR, id);
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ ok: false, message: "File not found" });

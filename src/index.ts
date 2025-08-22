@@ -1,9 +1,11 @@
 // src/index.ts
 import express, { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
-import path from "path";
+
 import cors from "cors";
 import uploadRouter from "./routes/upload.route";
+import fs from "fs";
+import path from "path";
 
 dotenv.config();
 
@@ -14,7 +16,10 @@ app.use(express.json());
 app.use(cors());
 
 // serve uploads folder statically
-const UPLOAD_DIR = path.join(__dirname, "..", "uploads");
+const UPLOAD_DIR = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(UPLOAD_DIR)) {
+  fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+}
 app.use("/uploads", express.static(UPLOAD_DIR));
 
 // log
@@ -23,13 +28,10 @@ app.use((req, _res, next) => {
   next();
 });
 
-// mount upload routes under /api/upload
 app.use("/api/upload", uploadRouter);
 
-// health
 app.get("/", (_req: Request, res: Response) => res.send("Hello"));
 
-// basic error handler (catches multer errors)
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error("ERROR:", err);
   if (err.code === "LIMIT_FILE_SIZE")
