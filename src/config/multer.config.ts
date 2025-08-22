@@ -3,7 +3,7 @@ import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import fs from "fs";
 
-const UPLOAD_DIR = path.join(__dirname, "..", "..", "uploads");
+const UPLOAD_DIR = path.join(__dirname, "..", "uploads");
 
 
 if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
