@@ -4,7 +4,7 @@ import fs from "fs";
 import { Request, Response } from "express";
 
 
-const UPLOAD_DIR = path.resolve(__dirname, "..","..", "uploads");
+const UPLOAD_DIR = path.resolve(__dirname, "..","..","..", "uploads");
 
 
 export const getFileById = (req: Request, res: Response) => {
